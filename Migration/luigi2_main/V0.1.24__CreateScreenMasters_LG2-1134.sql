@@ -1,0 +1,70 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+
+CREATE TABLE IF NOT EXISTS `screen_master` (
+  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `screen_id` VARCHAR(255) NOT NULL DEFAULT ' - ' COMMENT '画面ID',
+  `business_group_type` CHAR(2) NULL DEFAULT NULL COMMENT '業務グループ種別',
+  `old_screen_id` VARCHAR(255) NULL DEFAULT NULL COMMENT '旧画面ID',
+  `screen_title` VARCHAR(127) NULL DEFAULT NULL COMMENT '画面名',
+  `description` VARCHAR(63) NULL DEFAULT NULL COMMENT '備考',
+  `created_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP COMMENT '作成日時',
+  `updated_at` DATETIME NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '最終更新日時',
+  `deleted_at` DATETIME NULL DEFAULT NULL COMMENT '論理削除',
+  PRIMARY KEY (`id`),
+  INDEX `idx_screen_id` (`screen_id` ASC),
+  INDEX `screen_master_business_group_type_idx` (`business_group_type` ASC),
+  CONSTRAINT `screen_master_business_group_type`
+    FOREIGN KEY (`business_group_type`)
+    REFERENCES `business_group_type_master` (`code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_bin
+COMMENT = '画面マスタ';
+
+CREATE TABLE IF NOT EXISTS `screen_region_master` (
+  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `screen_id` VARCHAR(255) NOT NULL DEFAULT ' - ' COMMENT '画面ID',
+  `screen_region_id` VARCHAR(255) NOT NULL COMMENT '画面領域ID',
+  `screen_region_title` VARCHAR(127) NULL DEFAULT NULL COMMENT '画面領域名',
+  `description` VARCHAR(63) NULL DEFAULT NULL COMMENT '備考',
+  `valid` CHAR(1) NOT NULL DEFAULT 0 COMMENT '有効',
+  `created_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP COMMENT '作成日時',
+  `updated_at` DATETIME NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '最終更新日時',
+  `deleted_at` DATETIME NULL DEFAULT NULL COMMENT '論理削除',
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `CAND_screen_region_master` (`screen_id` ASC, `screen_region_id` ASC),
+  CONSTRAINT `screen_region_master_screen_master`
+    FOREIGN KEY (`screen_id`)
+    REFERENCES `screen_master` (`screen_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_bin
+COMMENT = '画面領域マスタ';
+
+CREATE TABLE IF NOT EXISTS `business_group_type_master` (
+  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `code` CHAR(2) NOT NULL COMMENT '業務グループ種別コード',
+  `title` VARCHAR(63) NULL DEFAULT NULL COMMENT '業務グループ種別名',
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '作成日時',
+  `updated_at` DATETIME NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '最終更新日時',
+  `deleted_at` DATETIME NULL DEFAULT NULL COMMENT '論理削除',
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `business_group_type_UNIQUE` (`code` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_bin
+COMMENT = '業務グループ種別マスタ';
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

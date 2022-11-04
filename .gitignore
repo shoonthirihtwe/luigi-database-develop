@@ -1,0 +1,13 @@
+# global
+.DS_Store
+crash.log
+
+# direnv
+.envrc
+
+# ssh
+*.id_rsa.pub
+*.id_rsa
+
+# sql
+._*.sql

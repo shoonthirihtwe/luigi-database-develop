@@ -1,0 +1,40 @@
+-- MySQL Script
+-- 2022-10-12 16:06
+--
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+
+
+ALTER TABLE `customers_corporate` 
+DROP COLUMN `corp_addr_knj_3`,
+DROP COLUMN `rep10e_addr_knj_3`,
+DROP COLUMN `contact_addr_knj_3`;
+
+ALTER TABLE `maintenance_requests_customer_corporate` 
+DROP COLUMN `corp_addr_knj_3`,
+DROP COLUMN `rep10e_addr_knj_3`,
+DROP COLUMN `contact_addr_knj_3`;
+
+ALTER TABLE `customers_individual` 
+DROP COLUMN `addr_knj_3`;
+
+ALTER TABLE `maintenance_requests_customer_individual` 
+DROP COLUMN `addr_knj_3`;
+
+ALTER TABLE `claim_headers` 
+DROP COLUMN `claimant_addr_knj_3`;
+
+ALTER TABLE `beneficiaries` 
+DROP COLUMN `addr_knj_3`;
+
+ALTER TABLE `maintenance_requests_beneficiaries` 
+DROP COLUMN `addr_knj_3`;
+
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

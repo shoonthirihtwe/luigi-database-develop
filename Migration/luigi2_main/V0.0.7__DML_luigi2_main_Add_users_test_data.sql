@@ -1,0 +1,1 @@
+INSERT INTO `users` VALUES (1,1,'test','g.kim@allofthem.co.jp','2021-07-28 19:33:24','1','d72ace97-6349-46c2-9442-74a412df84b1',5,'2021-07-28 17:17:23',NULL,'2021-07-28 19:33:24',NULL,NULL,NULL);
